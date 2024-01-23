@@ -127,19 +127,19 @@ def updatecheck():
                 print(f"An unknown beta version was found :(\n")
             return
 
-class SystemInformation:
+class SysInf:
     system=platform.system()
     version=platform.version()
     cpu_architecture=platform.machine()
     complete_system=f"{system} {version}"
 
-text=f"The platform uses: {SystemInformation.complete_system} {SystemInformation.cpu_architecture[0]}"
+text=f"The platform uses: {SysInf.complete_system} {SysInf.cpu_architecture}"
 log_system(text)
 
-if SystemInformation.system=="'Linux'":
+if SysInf.system=="'Linux'":
     print("[WARNING] Linux may not work on all versions...")
 
-if SystemInformation.system=="'Darwin'":
+if SysInf.system=="'Darwin'":
     print(f"[WARNING] MacOS and other Darwin based systems can't be tested, it may not work.\n")
 
 def init():
@@ -181,3 +181,7 @@ def init():
         if setting.upcheck==True:
             updatethread=Process(target=updatecheck())
             updatethread.start()
+        
+        if SysInf.system=="Windows":
+            print("test")
+init()
