@@ -28,7 +28,7 @@ class setting:
 
     #the links to all the versions from the project
     dl_link="https://github.com/Chaosminecraft/Text-converter/releases/"
-    beta_channel="https://github.com/Chaosminecraft/Text-Converter-Beta/releases"
+    beta_channel="https://github.com/Chaosminecraft/Text-Converter-Beta/"
     old_link="https://drive.google.com/open?id=16AcLcgRRLlM7chKUi4eHgT-NOfBCnArM"
     old_repo="https://github.com/Chaosminecraft/Custom-Encoder"
 
@@ -144,12 +144,12 @@ if SysInf.system=="'Darwin'":
 
 def init():
     while True:
-        while True:
-            try:
+        try:
+            while True:
                 try:
                     with open("settings.json", "r") as file:
                         settings=json.load(file)
-                    
+
                     setting.language=settings.get("lang")
                     setting.ad=settings.get("ad")
                     setting.prompt=settings.get("prompt")
@@ -157,23 +157,23 @@ def init():
                     setting.logg=settings.get("logging")
                     break
                 except FileNotFoundError:
-                    settings_init()
-            except:
-                traced=traceback.format_exc()
-                text=f"There has been a settings Specific settings error that is currently unable to be fixed. Please manually repair the settings file if possible. THere is more information about the crash:\n{traced}"
-                print(text)
-                log_system(text)
-                print(f"\nThere is the option to report it to the GitHub page as an problem, Do you wanna open the site?")
-                if input("Yes or No? ").lower() == "yes":
-                    webbrowser.open(setting.dl_link)
-                
-                setting.language="en"
-                setting.ad=False
-                setting.prompt="PC@NAME:~$ "
-                setting.upcheck=False
-                setting.logg=True
+                    settings_init(setting.name, setting.host)
+        except:
+            traced=traceback.format_exc()
+            text=f"There has been a settings Specific settings error that is currently unable to be fixed. Please manually repair the settings file if possible. THere is more information about the crash:\n{traced}"
+            print(text)
+            log_system(text)
+            print(f"\nThere is the option to report it to the GitHub page as an problem, Do you wanna open the site?")
+            if input("Yes or No? ").lower() == "yes":
+                webbrowser.open(setting.dl_link)
 
-                print(f"A temporare workaround has been put in until the solution is there.\n")
+            setting.language="en"
+            setting.ad=False
+            setting.prompt="PC@NAME:~$ "
+            setting.upcheck=False
+            setting.logg=True
+
+            print(f"A temporare workaround has been put in until the solution is there.\n")
 
         titletime=Process(target=title_time)
         titletime.start()
@@ -182,6 +182,17 @@ def init():
             updatethread=Process(target=updatecheck())
             updatethread.start()
         
-        if SysInf.system=="Windows":
-            print("test")
+        if SysInf.system=="Linux":
+            print("I'm aware that the title doesn't update on Linux...")
+            titletime.terminate()
+        
+        if setting.language=="en":
+            print(f"Welcome to the currently Beta version of Text Converter. Please complain on the Beta GitHub Site about issues. it is at {setting.beta_channel}")
+        
+        main()
+
+def main():
+    print("Function still queued")
+    input()
+    exit()
 init()

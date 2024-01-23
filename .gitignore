@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+#Custom extensions
+*.json
+.gitignore
+
 # Distribution / packaging
 .Python
 build/
