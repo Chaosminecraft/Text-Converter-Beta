@@ -42,6 +42,7 @@ except ImportError:
 from logger import log_init, log_system, log_info, log_warn, log_error
 log_init(setting.logg)
 from settings import settings_init, change_settings
+from timeread import timereader, title_time
 
 def updatecheck():
     if setting.release==True:
@@ -145,16 +146,38 @@ def init():
     while True:
         while True:
             try:
-                with open("settings.json", "r") as file:
-                    settings=json.load(file)
+                try:
+                    with open("settings.json", "r") as file:
+                        settings=json.load(file)
+                    
+                    setting.language=settings.get("lang")
+                    setting.ad=settings.get("ad")
+                    setting.prompt=settings.get("prompt")
+                    setting.upcheck=settings.get("update")
+                    setting.logg=settings.get("logging")
+                    break
+                except FileNotFoundError:
+                    settings_init()
+            except:
+                traced=traceback.format_exc()
+                text=f"There has been a settings Specific settings error that is currently unable to be fixed. Please manually repair the settings file if possible. THere is more information about the crash:\n{traced}"
+                print(text)
+                log_system(text)
+                print(f"\nThere is the option to report it to the GitHub page as an problem, Do you wanna open the site?")
+                if input("Yes or No? ").lower() == "yes":
+                    webbrowser.open(setting.dl_link)
                 
-                setting.language=settings.get("lang")
-                setting.ad=settings.get("ad")
-                setting.prompt=settings.get("prompt")
-                setting.upcheck=settings.get("update")
-                setting.logg=settings.get("logging")
-                break
-            except FileNotFoundError:
-                settings_init()
+                setting.language="en"
+                setting.ad=False
+                setting.prompt="PC@NAME:~$ "
+                setting.upcheck=False
+                setting.logg=True
+
+                print(f"A temporare workaround has been put in until the solution is there.\n")
+
+        titletime=Process(target=title_time)
+        titletime.start()
+
         if setting.upcheck==True:
             updatethread=Process(target=updatecheck())
+            updatethread.start()
