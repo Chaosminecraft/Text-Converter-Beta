@@ -1,9 +1,8 @@
 #importing required "libraries" adn getting the beginning of the startup time
 import getpass, os, platform, socket, json, sys, traceback, webbrowser
-from multiprocessing import Process
+from threading import Thread
+from multiprocessing import Process, freeze_support
 from time import sleep
-from datetime import datetime
-start=datetime.now()
 
 class setting:
     #if the version is a release or Dev version
@@ -13,11 +12,14 @@ class setting:
 
     #variables needed for propper execution
     language=""
-    upcheck=""
+    upcheck=True
     prompt=""
     ad=""
     logg=True
     init=False
+    check_init_time=True
+    start=""
+    start_time=""
 
     #Email adress if GitHub is not a option
     mail="chaosminecraftmail@gmail.com"
@@ -32,6 +34,9 @@ class setting:
     old_link="https://drive.google.com/open?id=16AcLcgRRLlM7chKUi4eHgT-NOfBCnArM"
     old_repo="https://github.com/Chaosminecraft/Custom-Encoder"
 
+from datetime import datetime
+setting.start=datetime.now()
+
 try:
     import requests
 except ImportError:
@@ -43,8 +48,10 @@ from logger import log_init, log_system, log_info, log_warn, log_error
 log_init(setting.logg)
 from settings import settings_init, change_settings
 from timeread import timereader, title_time
+from converter import convert
 
 def updatecheck():
+    print("Function Started.")
     if setting.release==True:
         link_ver="https://www.dropbox.com/s/h9cwtlx43bkbro2/version.txt?dl=1"
         checked_version=requests.get(link_ver, allow_redirects=True)
@@ -70,11 +77,11 @@ def updatecheck():
         
         elif checked_version<setting.version:
             if setting.language=="en":
-                print(f"No need to be ashamed to be a dev 👍\n")
+                print(f"No need to be ashamed to be a dev \n")
             elif setting.language=="de":
-                print(f"Man muss sich nicht schämen, ein Entwickler zu sein 👍\n")
+                print(f"Man muss sich nicht schämen, ein Entwickler zu sein \n")
             else:
-                print(f"No need to be ashamed to be a dev 👍\n")
+                print(f"No need to be ashamed to be a dev \n")
             return
         
         else:
@@ -133,6 +140,10 @@ class SysInf:
     cpu_architecture=platform.machine()
     complete_system=f"{system} {version}"
 
+class threads:
+    updatethread=Thread(target=updatecheck)
+    titletime=Process(target=title_time, args=(setting.language, SysInf.system, ))
+
 text=f"The platform uses: {SysInf.complete_system} {SysInf.cpu_architecture}"
 log_system(text)
 
@@ -175,16 +186,14 @@ def init():
 
             print(f"A temporare workaround has been put in until the solution is there.\n")
 
-        titletime=Process(target=title_time)
-        titletime.start()
+        threads.titletime.start()
 
         if setting.upcheck==True:
-            updatethread=Process(target=updatecheck())
-            updatethread.start()
+            threads.updatethread.start()
         
         if SysInf.system=="Linux":
             print("I'm aware that the title doesn't update on Linux...")
-            titletime.terminate()
+            threads.titletime.terminate()
         
         if setting.language=="en":
             print(f"Welcome to the currently Beta version of Text Converter. Please complain on the Beta GitHub Site about issues. it is at {setting.beta_channel}")
@@ -192,7 +201,63 @@ def init():
         main()
 
 def main():
-    print("Function still queued")
-    input()
-    exit()
-init()
+    try:
+        try:
+            try:
+                if setting.upcheck==True:
+                    if setting.init==False:
+                        threads.updatethread.join()
+                        temp=""
+                
+                if setting.check_init_time==True:
+                    setting.start_time=datetime.now()-setting.start
+                    if setting.init==False:
+                        print(f"Startup needed {setting.start_time} seconds.")
+                    text=f"The program started in {setting.start_time} seconds."
+                    log_system(text)
+                
+                while True:
+                    setting.init=True
+                    command=input(setting.prompt).lower()
+                    if command=="":
+                        text="No input detected."
+                    else:
+                        text=f"The user used: {command}"
+                    log_info(text, setting.logg)
+
+                    if command=="test":
+                        print("SUCCESS :P")
+
+                    if command=="leetspeak" or command=="leetcode":
+                        if setting.language=="en":
+                            print(f"\nThat feature is permanently Removed.\n")
+                    
+                    if command=="phex" or command=="pbin" or command=="legacy pbin" or command=="hex" or command=="bin" or command=="ascii" or command=="brainfuck" or command=="base64":
+                        convert(command, setting.language, setting.logg, setting.name)
+
+                    if command=="exit":
+                        close()
+            except AttributeError:
+                pass
+        
+        except TypeError:
+            traced=traceback.format_exc()
+            if setting.language=="en":
+                print("\nAn unexpected error occured...\n")
+            
+            text=f"There was an type error somehow. that is the traceback:\n{traced}"
+            log_system(text)
+            threads.titletime.terminate()
+            sleep(5)
+            exit()
+    except KeyboardInterrupt    :
+        close()
+
+def close():
+    print("A Queued Function.")
+    threads.titletime.terminate()
+    return
+
+if __name__=="__main__":
+    freeze_support()
+    init()

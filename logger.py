@@ -18,13 +18,12 @@ def log_system(text):
     return
 
 def log_info(text, logg):
-    if text!="the user entered: ":
-        if logg==True:
-            text=f"[INFO] {text}"
-            logging.info(text)
-            return
-        if logg==False:
-            return
+    if logg==True:
+        text=f"[INFO] {text}"
+        logging.info(text)
+        return
+    if logg==False:
+        return
 
 def log_warn(text, logg):
     if logg==True:
