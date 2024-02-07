@@ -200,7 +200,6 @@ def init():
         if setting.language=="en":
             print(f"Welcome to the currently Beta version of Text Converter. Please complain on the Beta GitHub Site about issues. it is at {setting.beta_channel}")
 
-        print("Started :)")        
         main()
 
 def main():
