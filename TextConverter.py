@@ -1,7 +1,6 @@
 #importing required "libraries" adn getting the beginning of the startup time
 import getpass, os, platform, socket, json, sys, traceback, webbrowser
-from threading import Thread
-from multiprocessing import Process, freeze_support
+from threading import Thread, Event
 from time import sleep
 
 class setting:
@@ -142,7 +141,8 @@ class SysInf:
 
 class threads:
     updatethread=Thread(target=updatecheck)
-    titletime=Process(target=title_time, args=(setting.language, SysInf.system, ))
+    stop_event=Event()
+    titletime=Thread(target=title_time, args=(setting.language, SysInf.system, stop_event, ))
 
 text=f"The platform uses: {SysInf.complete_system} {SysInf.cpu_architecture}\n"
 log_system(text)
@@ -186,18 +186,21 @@ def init():
 
             print(f"A temporare workaround has been put in until the solution is there.\n")
 
-        threads.titletime.start()
+        if setting.init==False:
+            threads.titletime.start()
 
-        if setting.upcheck==True:
-            threads.updatethread.start()
+        if setting.init==False:
+            if setting.upcheck==True:
+                threads.updatethread.start()
         
         if SysInf.system=="Linux":
             print("I'm aware that the title doesn't update on Linux...")
-            threads.titletime.terminate()
+            threads.stop_event.set()
         
         if setting.language=="en":
             print(f"Welcome to the currently Beta version of Text Converter. Please complain on the Beta GitHub Site about issues. it is at {setting.beta_channel}")
-        
+
+        print("Started :)")        
         main()
 
 def main():
@@ -238,14 +241,15 @@ def main():
                         close()
                     
                     elif command=="halt" or command=="stop, you violated the law":
-                        threads.titletime.terminate()
+                        threads.stop_event.set()
                         exit()
                     
                     elif command=="titletimestop":
-                        threads.titletime.terminate()
+                        threads.stop_event.set()
                     
                     elif command=="titletimestart":
-                        threads.titletime=Process(target=title_time, args=(setting.language, SysInf.system, ))
+                        threads.stop_event=Event()
+                        threads.titletime=Thread(target=title_time, args=(setting.language, SysInf.system, threads.stop_event, ))
                         threads.titletime.start()
                     
                     elif command=="":
@@ -288,7 +292,7 @@ def close():
         os.system("cls")
         print(f"\nDo you wanna clsoe the PRogram?\n")
         if input("Yes/No: ").lower()=="yes":
-            threads.titletime.terminate()
+            threads.stop_event.set()
             exit()
         else:
             return
@@ -296,12 +300,11 @@ def close():
         os.system("cls")
         print(f"Willst du das Program beenden?\n")
         if input("Ja/Nein: ").lower()=="ja":
-            threads.titletime.terminate()
+            threads.stop_event.set()
             exit()
         else:
             return
     return
 
 if __name__=="__main__":
-    freeze_support()
     init()

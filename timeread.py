@@ -2,7 +2,6 @@ import os, traceback
 import sys as syst
 from time import  sleep
 from datetime import datetime
-from threading import Event
 
 from logger import log_info, log_system
 
@@ -31,10 +30,10 @@ def timereader(language, logg):
 
         return
 
-def title_time(language, system):
+def title_time(language, system, stop_event):
     try:
         if system=="Windows":
-            while True:
+            while not stop_event.is_set():
                 now=datetime.now()
                 if language=="de":
                     now=now.strftime("%d/%m/%Y, %H:%M:%S.%f")
@@ -46,14 +45,13 @@ def title_time(language, system):
 
 
         if system=="Linux":
-            while True:
+            while not stop_event.is_set():
                 now=datetime.now()
                 now=now.strftime("%d/%m/%Y, %H:%M:%S")
                 syst.stdout.write(f"\x1b]2;Text Converter V2.3 {now}\x07")
                 #print("Time Updated") somehow that fixes the title...
                 sleep(timesetting.delay)
     except:
-        print("An exception came.")
         traced=traceback.format_exc()
         text=f"There has been an exception:\n{traced}"
         log_system(text)
