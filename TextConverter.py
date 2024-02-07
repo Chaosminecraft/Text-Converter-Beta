@@ -97,7 +97,7 @@ def updatecheck():
     
     elif setting.release==False:
         print("BETA RELEASE")
-        link_ver="https://www.dropbox.com/s/a5wc7oon68nz9io/version-beta.txt?dl=1"
+        link_ver="https://github.com/Chaosminecraft/Text-Converter-Beta/raw/main/version.txt"
         checked_version=requests.get(link_ver, allow_redirects=True)
         checked_version=str(checked_version.content)[2:5]
         print(checked_version)
