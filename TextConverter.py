@@ -55,7 +55,7 @@ def updatecheck():
     print("FUNCTION START")
     if setting.release==True:
         print("RELEASE VERSION")
-        link_ver="https://www.dropbox.com/s/h9cwtlx43bkbro2/version.txt?dl=1"
+        link_ver="https://github.com/Chaosminecraft/Text-converter/raw/main/version.txt"
         checked_version=requests.get(link_ver, allow_redirects=True)
         checked_version=str(checked_version.content)[2:5]
         print(checked_version)
