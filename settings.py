@@ -44,6 +44,8 @@ def settings_init(name, host):
     return
 
 def change_settings(**args):
+    print("W.I.P")
+    return
     try:
         with open("settings.json", "r") as file:
             settings=json.load(file)

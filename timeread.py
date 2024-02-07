@@ -7,7 +7,7 @@ from threading import Event
 from logger import log_info, log_system
 
 class timesetting:
-    delay=0.05
+    delay=0.125
 
 def timereader(language, logg):
     if language == "en":
@@ -53,6 +53,7 @@ def title_time(language, system):
                 #print("Time Updated") somehow that fixes the title...
                 sleep(timesetting.delay)
     except:
+        print("An exception came.")
         traced=traceback.format_exc()
         text=f"There has been an exception:\n{traced}"
         log_system(text)

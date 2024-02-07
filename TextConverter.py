@@ -144,7 +144,7 @@ class threads:
     updatethread=Thread(target=updatecheck)
     titletime=Process(target=title_time, args=(setting.language, SysInf.system, ))
 
-text=f"The platform uses: {SysInf.complete_system} {SysInf.cpu_architecture}"
+text=f"The platform uses: {SysInf.complete_system} {SysInf.cpu_architecture}\n"
 log_system(text)
 
 if SysInf.system=="'Linux'":
@@ -207,7 +207,6 @@ def main():
                 if setting.upcheck==True:
                     if setting.init==False:
                         threads.updatethread.join()
-                        temp=""
                 
                 if setting.check_init_time==True:
                     setting.start_time=datetime.now()-setting.start
@@ -228,15 +227,46 @@ def main():
                     if command=="test":
                         print("SUCCESS :P")
 
-                    if command=="leetspeak" or command=="leetcode":
+                    elif command=="leetspeak" or command=="leetcode":
                         if setting.language=="en":
                             print(f"\nThat feature is permanently Removed.\n")
                     
-                    if command=="phex" or command=="pbin" or command=="legacy pbin" or command=="hex" or command=="bin" or command=="ascii" or command=="brainfuck" or command=="base64":
+                    elif command=="phex" or command=="pbin" or command=="legacy pbin" or command=="hex" or command=="bin" or command=="ascii" or command=="brainfuck" or command=="base64":
                         convert(command, setting.language, setting.logg, setting.name)
 
-                    if command=="exit":
+                    elif command=="exit" or command=="close" or command=="stop":
                         close()
+                    
+                    elif command=="halt" or command=="stop, you violated the law":
+                        threads.titletime.terminate()
+                        exit()
+                    
+                    elif command=="titletimestop":
+                        threads.titletime.terminate()
+                    
+                    elif command=="titletimestart":
+                        threads.titletime=Process(target=title_time, args=(setting.language, SysInf.system, ))
+                        threads.titletime.start()
+                    
+                    elif command=="":
+                        if setting.language=="en":
+                            print(f"I'm sorry, i can't parse nothing :(")
+                        
+                        elif setting.language=="de":
+                            print(f"Es tut mir leid, ich kann nicht nicths parsen. :(")
+                        
+                        else:
+                            print(f"I'm sorry, i can't parse nothing :(")
+                    
+                    else:
+                        text=f"The user used an unknown command: {command}"
+                        if setting.language=="en":
+                            print(f"The command '{command}' was not found :(")
+                        elif setting.language=="de":
+                            print(f"Der command '{command}' wurde nicht gefunden :(")
+                        else:
+                            print(f"The command '{command}' was not found :(")
+
             except AttributeError:
                 pass
         
@@ -250,12 +280,26 @@ def main():
             threads.titletime.terminate()
             sleep(5)
             exit()
-    except KeyboardInterrupt    :
+    except KeyboardInterrupt:
         close()
 
 def close():
-    print("A Queued Function.")
-    threads.titletime.terminate()
+    if setting.language=="en":
+        os.system("cls")
+        print(f"\nDo you wanna clsoe the PRogram?\n")
+        if input("Yes/No: ").lower()=="yes":
+            threads.titletime.terminate()
+            exit()
+        else:
+            return
+    if setting.language=="de":
+        os.system("cls")
+        print(f"Willst du das Program beenden?\n")
+        if input("Ja/Nein: ").lower()=="ja":
+            threads.titletime.terminate()
+            exit()
+        else:
+            return
     return
 
 if __name__=="__main__":

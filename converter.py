@@ -115,6 +115,7 @@ def convert(command, language, logg, name):
                 part1=variables.content.encode("ascii")
                 part2=base64.b64encode(part1)
                 variables.out=bytes.decode(part2)
+                print(variables.out)
             
             else:
                 if language=="en":
@@ -159,6 +160,16 @@ def convert(command, language, logg, name):
                     print(f"\nDiese option ist nicht da, wie auch immer du es geschafft hast.\n")
                 else:
                     print(f"\nThat option is not there however you got that in.\n")
+
+        try:
+            del part1
+        except:
+            pass
+
+        try:
+            del part2
+        except:
+            pass
 
         return
     except KeyboardInterrupt:
