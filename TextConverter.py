@@ -6,8 +6,8 @@ from time import sleep
 class setting:
     #if the version is a release or Dev version
     release=False
-    version=2.5
-    beta_version=2.6
+    version="2.5"
+    beta_version="2.6"
 
     #variables needed for propper execution
     language=""
@@ -49,12 +49,15 @@ from settings import settings_init, change_settings
 from timeread import timereader, title_time
 from converter import convert
 
+#The update checking function
 def updatecheck():
-    print("Function Started.")
+    print("FUNCTION START")
     if setting.release==True:
+        print("RELEASE VERSION")
         link_ver="https://www.dropbox.com/s/h9cwtlx43bkbro2/version.txt?dl=1"
         checked_version=requests.get(link_ver, allow_redirects=True)
         checked_version=str(checked_version.content)[2:5]
+        print(checked_version)
         
         if checked_version>setting.version:
             if setting.language=="en":
@@ -92,10 +95,12 @@ def updatecheck():
                 print(f"An unknown version was found. :(\n")
             return
     
-    elif setting.release=="False":
+    elif setting.release==False:
+        print("BETA RELEASE")
         link_ver="https://www.dropbox.com/s/a5wc7oon68nz9io/version-beta.txt?dl=1"
         checked_version=requests.get(link_ver, allow_redirects=True)
         checked_version=str(checked_version.content)[2:5]
+        print(checked_version)
 
         if checked_version>setting.beta_version:
             if setting.language=="en":
