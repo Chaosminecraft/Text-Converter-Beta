@@ -4,6 +4,7 @@ from brainfuckery import Brainfuckery
 
 #importing the logger module
 from logger import log_system, log_info, log_error
+from helpfunctions import converterhelp
 
 
 class lists:
@@ -78,16 +79,21 @@ def convert(command, language, logg, name):
             text_list=lists.pbinary
         elif command=="legacy bin":
             text_list=lists.pbinary_legacy
-        
-        if language=="de":
-            answer=input("Convert oder Deconvert? ").lower()
-        elif language=="en":
-            answer=input("Convert or Deconvert? ").lower()
-        else:
-            answer=input("Convert or Deconvert? ").lower()
-        
-        if answer=="convert" or answer=="deconvert":
-            variables.content=input(">> ")
+
+        while True:
+            if language=="de":
+                answer=input("Convert oder Deconvert? ").lower()
+            elif language=="en":
+                answer=input("Convert or Deconvert? ").lower()
+            else:
+                answer=input("Convert or Deconvert? ").lower()
+            
+            if answer=="help":
+                converterhelp(command, language, answer)
+            
+            if answer=="convert" or answer=="deconvert":
+                variables.content=input(">> ")
+                break
 
         if answer=="convert":
             if command=="hex":

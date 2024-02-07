@@ -48,6 +48,7 @@ log_init(setting.logg)
 from settings import settings_init, change_settings
 from timeread import timereader, title_time
 from converter import convert
+from helpfunctions import mainhelp
 
 #The update checking function
 def updatecheck():
@@ -240,6 +241,9 @@ def main():
                     
                     elif command=="phex" or command=="pbin" or command=="legacy pbin" or command=="hex" or command=="bin" or command=="ascii" or command=="brainfuck" or command=="base64":
                         convert(command, setting.language, setting.logg, setting.name)
+                    
+                    elif command=="help" or command=="helpsite":
+                        mainhelp(command, setting.language)
 
                     elif command=="exit" or command=="close" or command=="stop":
                         close()
