@@ -1,5 +1,5 @@
 #importing required "libraries" adn getting the beginning of the startup time
-import getpass, os, platform, socket, json, sys, traceback, webbrowser
+import getpass, os, platform, socket, json, traceback, webbrowser
 from threading import Thread, Event
 from time import sleep
 
@@ -100,7 +100,7 @@ def updatecheck():
     elif setting.release==False:
         print("BETA RELEASE")
         link_ver="https://github.com/Chaosminecraft/Text-Converter-Beta/raw/main/version.txt"
-        checked_version=requests.get(link_ver, allow_redirects=True)
+        checked_version=requests.get(link_ver, allow_redirects=True, timeout=10)
         checked_version=str(checked_version.content)[2:5]
         print(checked_version)
 
@@ -248,6 +248,15 @@ def main():
                     
                     elif command=="help" or command=="helpsite":
                         mainhelp(command, setting.language)
+                    
+                    elif command=="language":
+                        change_settings(setlanguage=True, language=setting.language, logging=setting.logg)
+                    
+                    elif command=="prompt":
+                        change_settings(promptchange=True, language=setting.language, logging=setting.logg)
+                    
+                    elif command=="check update":
+                        updatecheck()
 
                     elif command=="exit" or command=="close" or command=="stop":
                         close()

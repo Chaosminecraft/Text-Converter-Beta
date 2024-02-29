@@ -43,14 +43,29 @@ def settings_init(name, host):
         json.dump(settings, save)
     return
 
-def change_settings(**args):
-    print("W.I.P")
-    return
+def change_settings(**kwargs):
     try:
         with open("settings.json", "r") as file:
             settings=json.load(file)
         
-        language=settings.get("language")
+        # language=settings.get("language")
+        # ad=settings.get("ad")
+        # prompt=settings.get("prompt")
+        # upcheck=settings.get("update")
+        # logg=settings.get("logging")
+
+        for key, value in kwargs.items():
+            if key in settings:
+                settings[key] = value
+        
+        print(kwargs['language'])
+        print(kwargs['promptchange'])
+        
+        if kwargs['language'] == 'de':
+            print(kwargs['language'])
+        
+        if kwargs['promptchange'] == True:
+            print("Heya")
     
     except KeyboardInterrupt:
         print()
