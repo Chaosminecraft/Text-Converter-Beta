@@ -137,8 +137,11 @@ def convert(command, language, logg, name):
                 print(variables.out)
             
             elif command=="bin":
-                part1=variables.content.replace(" ", "")
-                variables.out = ''.join([chr(int(part1[i:i+8], 2)) for i in range(0, len(part1), 8)])
+                part1=variables.content.split()
+                for content in part1:
+                    content=int(content, 2)
+                    content=chr(content)
+                    variables.out+=content
                 print(variables.out)
             
             elif command=="phex" or command=="pbin" or command=="legacy bin":
@@ -177,7 +180,7 @@ def convert(command, language, logg, name):
         except:
             pass
 
-        return
+        return variables.out
     except KeyboardInterrupt:
         print()
         return

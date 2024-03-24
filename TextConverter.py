@@ -33,6 +33,9 @@ class setting:
     old_link="https://drive.google.com/open?id=16AcLcgRRLlM7chKUi4eHgT-NOfBCnArM"
     old_repo="https://github.com/Chaosminecraft/Custom-Encoder"
 
+class converterdata:
+    out=""
+    
 from datetime import datetime
 setting.start=datetime.now()
 
@@ -244,7 +247,10 @@ def main():
                             print(f"\nThat feature is permanently Removed.\n")
                     
                     elif command=="phex" or command=="pbin" or command=="legacy pbin" or command=="hex" or command=="bin" or command=="ascii" or command=="brainfuck" or command=="base64":
-                        convert(command, setting.language, setting.logg, setting.name)
+                        converterdata.out=convert(command, setting.language, setting.logg, setting.name)
+                    
+                    elif command=="last conversion":
+                        print(converterdata.out)
                     
                     elif command=="help" or command=="helpsite":
                         mainhelp(command, setting.language)
