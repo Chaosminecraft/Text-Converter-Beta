@@ -7,7 +7,7 @@ class setting:
     #if the version is a release or Dev version
     release=False
     version="2.5"
-    beta_version="2.9"
+    beta_version="2.95"
 
     #variables needed for propper execution
     language=""
@@ -257,13 +257,16 @@ def main():
                         mainhelp(command, setting.language)
                     
                     elif command=="language":
-                        change_settings(settings="language", language=setting.language, logging=setting.logg)
+                        change_settings(settings="lang", prom=setting.prompt, language=setting.language, logging=setting.logg)
+                        return
                     
                     elif command=="prompt":
-                        change_settings(settings="prompt", language=setting.language, logging=setting.logg, pc=setting.host, name=setting.name, version=SysInf.version, system=SysInf.system)
+                        change_settings(settings="prompt", prom=setting.prompt, language=setting.language, logging=setting.logg, pc=setting.host, name=setting.name, version=SysInf.version, system=SysInf.system)
+                        return
                     
                     elif command=="ad":
-                        change_settings(settings="ad", language=setting.language, logging=setting.logg)
+                        change_settings(settings="ad", prom=setting.prompt, language=setting.language, logging=setting.logg)
+                        return
                     
                     elif command=="check update":
                         updatecheck()
