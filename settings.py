@@ -58,11 +58,17 @@ def change_settings(**kwargs):
                 if key in settings:
                     settings[key] = value
         
-        if kwargs['setlanguage'] == True:
-            print("Gotcha, language setting.")
+        if kwargs['settings'] == "language":
+            if kwargs["language"] == "en":
+                print("Gotcha, language setting.")
+            if kwargs["language"] == "de":
+                print("Okay, Spracheneinstellung.")
         
-        if kwargs['promptchange'] == True:
-            print("Heya, what prompt do you fancy?")
+        if kwargs['settings'] == "prompt":
+            if kwargs["language"] == "en":
+                print("Heya, what prompt do you fancy?")
+            if kwargs["language"] == "de":
+                print("Hallo, Was für ein prompt look möchtest du?")
     
     except KeyboardInterrupt:
         print()

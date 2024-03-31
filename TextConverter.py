@@ -256,10 +256,13 @@ def main():
                         mainhelp(command, setting.language)
                     
                     elif command=="language":
-                        change_settings(setlanguage=True, language=setting.language, logging=setting.logg)
+                        change_settings(settings="language", language=setting.language, logging=setting.logg)
                     
                     elif command=="prompt":
-                        change_settings(promptchange=True, language=setting.language, logging=setting.logg)
+                        change_settings(settings="prompt", language=setting.language, logging=setting.logg)
+                    
+                    elif command=="ad":
+                        change_settings(settings="ad", language=setting.language, logging=setting.logg)
                     
                     elif command=="check update":
                         updatecheck()
