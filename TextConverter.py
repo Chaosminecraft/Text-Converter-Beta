@@ -7,7 +7,7 @@ class setting:
     #if the version is a release or Dev version
     release=False
     version="2.5"
-    beta_version="2.7"
+    beta_version="2.9"
 
     #variables needed for propper execution
     language=""
@@ -145,7 +145,8 @@ def updatecheck():
 
 class SysInf:
     system=platform.system()
-    version=platform.version()
+    version=platform.release()
+    detail_version=platform.version()
     cpu_architecture=platform.machine()
     complete_system=f"{system} {version}"
 
@@ -154,7 +155,7 @@ class threads:
     stop_event=Event()
     titletime=Thread(target=title_time, args=(setting.language, SysInf.system, stop_event, ))
 
-text=f"The platform uses: {SysInf.complete_system} {SysInf.cpu_architecture}\n"
+text=f"The platform uses: \n                {SysInf.complete_system} build {SysInf.detail_version}\n                With the architecture: {SysInf.cpu_architecture}\n"
 log_system(text)
 
 if SysInf.system=="'Linux'":
@@ -259,7 +260,7 @@ def main():
                         change_settings(settings="language", language=setting.language, logging=setting.logg)
                     
                     elif command=="prompt":
-                        change_settings(settings="prompt", language=setting.language, logging=setting.logg)
+                        change_settings(settings="prompt", language=setting.language, logging=setting.logg, pc=setting.host, name=setting.name, version=SysInf.version, system=SysInf.system)
                     
                     elif command=="ad":
                         change_settings(settings="ad", language=setting.language, logging=setting.logg)

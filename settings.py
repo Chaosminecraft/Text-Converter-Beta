@@ -46,29 +46,75 @@ def settings_init(name, host):
 def change_settings(**kwargs):
     try:
         with open("settings.json", "r") as file:
-            settings=json.load(file)
+            settings_file=json.load(file)
         
-        # language=settings.get("language")
-        # ad=settings.get("ad")
-        # prompt=settings.get("prompt")
-        # upcheck=settings.get("update")
-        # logg=settings.get("logging")
+        language=settings_file.get("language")
+        ad=settings_file.get("ad")
+        prompt=settings_file.get("prompt")
+        upcheck=settings_file.get("update")
+        logg=settings_file.get("logging")
 
-            for key, value in kwargs.items():
-                if key in settings:
-                    settings[key] = value
-        
         if kwargs['settings'] == "language":
-            if kwargs["language"] == "en":
-                print("Gotcha, language setting.")
             if kwargs["language"] == "de":
-                print("Okay, Spracheneinstellung.")
+                while True:
+                    text=input("Welche Sprache? Da ist EN und DE: ").lower()
+                    if text!="en" or text!="de":
+                        print("Nope, Das ist Invalide!")
+                    
+                    if text=="en" or text=="de":
+                        language=text
+                        break
+                    
+            if kwargs["language"] == "en":
+                while True:
+                    text=input("What language? There is EN and DE: ").lower()
+                    if text!="en" or text!="de":
+                        print("Nope, that is sadly invalid!")
+                    
+                    elif text=="en" or text=="de":
+                        language=text
+                        break
         
         if kwargs['settings'] == "prompt":
             if kwargs["language"] == "en":
-                print("Heya, what prompt do you fancy?")
-            if kwargs["language"] == "de":
-                print("Hallo, Was für ein prompt look möchtest du?")
+                name=kwargs["name"]
+                host=kwargs["pc"]
+                system=kwargs["system"]
+                prompt=input("What prompt look? ")
+                if prompt.lower()=="linux":
+                    prompt=f"{name}@{host}:~$ "
+                if prompt.lower()=="windows":
+                    prompt=f"C:\\user\\{name}> "
+                
+                for r in (("{name}", name), ("{host}", host), ("{system}", system)):
+                    prompt=prompt.replace(*r)
+
+            elif kwargs["language"] == "de":
+                prompt=input("What prompt look? ")
+                if prompt.lower()=="linux":
+                    prompt=f"{name}@{host}:~$ "
+                if prompt.lower()=="windows":
+                    prompt=f"C:\\user\\{name}> "
+                
+                for r in (("{name}", name), ("{host}", host), ("{system}", system)):
+                    prompt=prompt.replace(*r)
+        
+        elif kwargs["settings"] == "ad":
+            if kwargs["language"] == "en":
+                print("AYO language time!")
+            elif kwargs["language"] == "de":
+                print("HALLOOOOOOOOOOOOOOO")
+
+        settings={
+            "lang":language,
+            "ad":ad,
+            "prompt":prompt,
+            "update":upcheck,
+            "logging":logg
+        }
+
+        with open("settings.json", "w") as file:
+            json.dump(settings, file)
     
     except KeyboardInterrupt:
         print()
