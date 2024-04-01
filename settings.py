@@ -23,7 +23,7 @@ def settings_init(name, host):
     try:
         if system_language=="de_de":
             language="de"
-        elif system_language=="en_en" or language=="en_us":
+        elif system_language=="en_en" or system_language=="en_us":
             language="en"
     except:
         print(f"\nNo compatible language found, Defaulted to English.")
@@ -66,7 +66,6 @@ def change_settings(**kwargs):
         variables.prompt=settings_file.get("prompt")
         variables.upcheck=settings_file.get("update")
         variables.logg=settings_file.get("logging")
-        print(variables.language, variables.ad, variables.prompt, variables.upcheck, variables.logg)
 
         if kwargs['settings'] == "lang":
             print("I RAN")
@@ -106,26 +105,23 @@ def change_settings(**kwargs):
         
         if kwargs['settings'] == "prompt":
             if kwargs["language"] == "en":
-                name=kwargs["name"]
-                host=kwargs["pc"]
-                system=kwargs["system"]
                 variables.prompt=input("What prompt look? ")
                 if variables.prompt.lower()=="linux":
-                    variables.prompt=f"{name}@{host}:~$ "
+                    variables.prompt=f"{kwargs["name"]}@{kwargs["pc"]}:~$ "
                 if variables.prompt.lower()=="windows":
-                    variables.prompt=f"C:\\user\\{name}> "
+                    variables.prompt=f"C:\\user\\{kwargs["name"]}> "
                 
-                for r in (("{name}", name), ("{host}", host), ("{system}", system)):
+                for r in (("{name}", kwargs["name"]), ("{host}", kwargs["pc"]), ("{system}", kwargs["system"])):
                     variables.prompt=variables.prompt.replace(*r)
 
             elif kwargs["language"] == "de":
                 variables.prompt=input("What prompt look? ")
                 if variables.prompt.lower()=="linux":
-                    variables.prompt=f"{name}@{host}:~$ "
+                    variables.prompt=f"{kwargs["name"]}@{kwargs["pc"]}:~$ "
                 if variables.prompt.lower()=="windows":
-                    variables.prompt=f"C:\\user\\{name}> "
+                    variables.prompt=f"C:\\user\\{kwargs["name"]}> "
                 
-                for r in (("{name}", name), ("{host}", host), ("{system}", system)):
+                for r in (("{name}", kwargs["name"]), ("{host}", kwargs["pc"]), ("{system}", kwargs["system"])):
                     variables.prompt=variables.prompt.replace(*r)
         
         elif kwargs["settings"] == "ad":

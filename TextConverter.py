@@ -7,7 +7,7 @@ class setting:
     #if the version is a release or Dev version
     release=False
     version="2.5"
-    beta_version="2.95"
+    beta_version="2.97"
 
     #variables needed for propper execution
     language=""
@@ -172,7 +172,7 @@ def init():
                     with open("settings.json", "r") as file:
                         settings=json.load(file)
 
-                    setting.language=settings.get("lang")
+                    setting.language=settings.get("language")
                     setting.ad=settings.get("ad")
                     setting.prompt=settings.get("prompt")
                     setting.upcheck=settings.get("update")
@@ -270,6 +270,9 @@ def main():
                     
                     elif command=="check update":
                         updatecheck()
+                    
+                    elif command=="reset":
+                        return
 
                     elif command=="exit" or command=="close" or command=="stop":
                         close()
