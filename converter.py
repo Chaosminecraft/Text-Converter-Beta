@@ -72,6 +72,8 @@ class variables:
 
 #the main function of the converter
 def convert(command, language, logg, name):
+    variables.content=""
+    variables.out=""
     try:
         if command=="phex":
             text_list=lists.phex
