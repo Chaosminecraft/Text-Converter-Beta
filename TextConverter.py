@@ -28,8 +28,9 @@ class setting:
     host=socket.gethostname()
 
     #the links to all the versions from the project
+    main_repo="https://github.com/Chaosminecraft/Text-converter/"
     dl_link="https://github.com/Chaosminecraft/Text-converter/releases/"
-    beta_channel="https://github.com/Chaosminecraft/Text-Converter-Beta/"
+    beta_channel="https://github.com/Chaosminecraft/Text-converter/tree/Beta"
     old_link="https://drive.google.com/open?id=16AcLcgRRLlM7chKUi4eHgT-NOfBCnArM"
     old_repo="https://github.com/Chaosminecraft/Custom-Encoder"
 
@@ -56,13 +57,13 @@ from advert import free_ad, get_game
 
 #The update checking function
 def updatecheck():
-    print("FUNCTION START")
+    #print("FUNCTION START") #Debugging if the function started
     if setting.release==True:
-        print("RELEASE VERSION")
+        #print("RELEASE VERSION") #If it is seeing it as the release version.
         link_ver="https://github.com/Chaosminecraft/Text-converter/raw/main/version.txt"
         checked_version=requests.get(link_ver, allow_redirects=True)
         checked_version=str(checked_version.content)[2:5]
-        print(checked_version)
+        #print(checked_version) #Printing the version it got from the internet (if available)
         
         if checked_version>setting.version:
             if setting.language=="en":
@@ -101,11 +102,11 @@ def updatecheck():
             return
     
     elif setting.release==False:
-        print("BETA RELEASE")
+        #print("BETA RELEASE") #If the version is a Beta Version
         link_ver="https://github.com/Chaosminecraft/Text-Converter-Beta/raw/main/version.txt"
         checked_version=requests.get(link_ver, allow_redirects=True, timeout=10)
         checked_version=str(checked_version.content)[2:5]
-        print(checked_version)
+        #print(checked_version) #Printing the Beta Version found on the repo (if Internet Connection is there)
 
         if checked_version>setting.beta_version:
             if setting.language=="en":
@@ -187,7 +188,7 @@ def init():
             log_system(text)
             print(f"\nThere is the option to report it to the GitHub page as an problem, Do you wanna open the site?")
             if input("Yes or No? ").lower() == "yes":
-                webbrowser.open(setting.dl_link)
+                webbrowser.open(setting.beta_channel)
 
             setting.language="en"
             setting.ad=False
@@ -213,6 +214,8 @@ def init():
         
         if setting.language=="en":
             print(f"Welcome to the currently Beta version of Text Converter. Please complain on the Beta GitHub Site about issues. it is at {setting.beta_channel}")
+
+        print(f"\nINFO: If you ignored the big 'Public archive' thing or you have been told to ignore it, that version might be too old to work fully with the latest version of the source code at \n\n{setting.main_repo}\n\nIf someone says they are me and need to use that Project for transfering money, that is not true.\n")
 
         main()
 
